@@ -19,18 +19,46 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 To use the module,
 
 ``` javascript
-var foo = require( 'compute-isinteger' );
+var isinteger = require( 'compute-isinteger' );
 ```
 
-#### foo( arr )
+#### isinteger( arr )
 
-What does this function do?
+Computes for each `array` element whether an element is an `integer`. The function returns an `array` with length equal to that of the input `array`. Each output `array` element is either `0` or `1`. A value of `1` means that an element is an `integer` and `0` means that an element is __not__ an `integer`.
+
+``` javascript
+var out = isinteger( [ 5, 3.14, 3, -9, 1/0, NaN, 0, null ] );
+// returns [ 1, 0, 1, 1, 0, 0, 1, 0 ]
+```
 
 
 ## Examples
 
 ``` javascript
-var foo = require( 'compute-isinteger' );
+var isinteger = require( 'compute-isinteger' );
+
+// Simulate some data...
+var data = new Array( 100 ),
+	len = data.length,
+	rand;
+
+for ( var i = 0; i < len; i++ ) {
+	rand = Math.round( Math.random()*100 );
+	if ( rand < 5 ) {
+		rand += Number.EPSILON;
+	}
+	data[ i ] = rand;
+}
+
+var out = isinteger( data );
+
+// Count the number of integer values detected...
+var sum = 0;
+for ( var i = 0; i < len; i++ ) {
+	sum += out[ i ];
+}
+
+console.log( 'Count: %d', sum );
 ```
 
 To run the example code from the top-level application directory,
